@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Events Management</h1>
+<p><a href="/events">Add / View</a> | <a href="/events/update">Update</a> | <a href="/events/delete">Delete</a></p>
+
+<h3>Search and Update Event</h3>
+<form method="GET">
+    <input type="text" name="search" placeholder="Search event name" value="{{ search }}">
+    <button type="submit">Search</button>
+</form>
+
+{% for e in events %}
+<form method="POST">
+    <input type="hidden" name="evCode" value="{{ e['evCode'] }}">
+    #{{ e["evCode"] }}
+    <input type="text" name="evName" value="{{ e['evName'] }}" required>
+    <input type="date" name="evDate" value="{{ e['evDate'] }}" required>
+    <input type="text" name="evVenue" value="{{ e['evVenue'] }}" required>
+    <input type="number" step="0.01" name="evRFee" value="{{ e['evRFee'] }}" required>
+    <button type="submit">Update</button>
+</form>
+{% endfor %}
+{% endblock %}

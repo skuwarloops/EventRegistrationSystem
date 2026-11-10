@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Participants Management</h1>
+<p><a href="/participants">Add / View</a> | <a href="/participants/update">Update</a> | <a href="/participants/delete">Delete</a></p>
+
+<h3>Search and Delete Participant</h3>
+<form method="GET">
+    <input type="text" name="search" placeholder="Search first or last name" value="{{ search }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+
+<table>
+    <tr><th>ID</th><th>Event</th><th>First Name</th><th>Last Name</th><th>Discount</th><th>Action</th></tr>
+    {% for p in participants %}
+    <tr>
+        <td>{{ p["partID"] }}</td>
+        <td>{{ p["evName"] }}</td>
+        <td>{{ p["partFName"] }}</td>
+        <td>{{ p["partLName"] }}</td>
+        <td>{{ p["partDRate"] }}</td>
+        <td>
+            <form method="POST" style="margin:0;" onsubmit="return confirm('Delete this participant?');">
+                <input type="hidden" name="partID" value="{{ p['partID'] }}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Participant Registration</h1>
+
+<h3>Register Participant</h3>
+<form method="POST">
+    <select name="partID" id="partID" required onchange="computeFee()">
+        <option value="" data-fee="0" data-rate="0">-- Select Participant --</option>
+        {% for p in participants %}
+        <option value="{{ p['partID'] }}" data-fee="{{ p['evRFee'] }}" data-rate="{{ p['partDRate'] }}">
+            {{ p["partFName"] }} {{ p["partLName"] }} ({{ p["evName"] }})
+        </option>
+        {% endfor %}
+    </select>
+    <input type="date" name="regDate" value="{{ today }}" required>
+    <select name="regPMode" required>
+        <option value="Cash">Cash</option>
+        <option value="Card">Card</option>
+        <option value="Gcash">Gcash</option>
+    </select>
+    Fee to pay: <input type="text" id="feeDisplay" readonly>
+    <button type="submit">Register</button>
+</form>
+
+<h3>Registration Records (Latest to Oldest)</h3>
+<table>
+    <tr><th>Code</th><th>Event</th><th>Participant</th><th>Date</th><th>Fee Paid</th><th>Mode</th></tr>
+    {% for r in records %}
+    <tr>
+        <td>{{ r["regCode"] }}</td>
+        <td>{{ r["evName"] }}</td>
+        <td>{{ r["partFName"] }} {{ r["partLName"] }}</td>
+        <td>{{ r["regDate"] }}</td>
+        <td>{{ r["regFPaid"] }}</td>
+        <td>{{ r["regPMode"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+function computeFee() {
+    var opt = document.getElementById("partID").selectedOptions[0];
+    var fee = parseFloat(opt.dataset.fee);
+    var rate = parseFloat(opt.dataset.rate);
+    document.getElementById("feeDisplay").value = (fee - fee * rate).toFixed(2);
+}
+computeFee();   
+</script>
+{% endblock %}

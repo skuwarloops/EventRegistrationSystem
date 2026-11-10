@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Events Management</h1>
+<p><a href="/events">Add / View</a> | <a href="/events/update">Update</a> | <a href="/events/delete">Delete</a></p>
+
+<h3>Add Event</h3>
+<form method="POST">
+    <input type="text" name="evName" placeholder="Event Name" required>
+    <input type="date" name="evDate" required>
+    <input type="text" name="evVenue" placeholder="Venue" required>
+    <input type="number" step="0.01" name="evRFee" placeholder="Registration Fee" required>
+    <button type="submit">Add</button>
+</form>
+
+<h3>All Events</h3>
+<table>
+    <tr><th>Code</th><th>Name</th><th>Date</th><th>Venue</th><th>Fee</th></tr>
+    {% for e in events %}
+    <tr>
+        <td>{{ e["evCode"] }}</td>
+        <td>{{ e["evName"] }}</td>
+        <td>{{ e["evDate"] }}</td>
+        <td>{{ e["evVenue"] }}</td>
+        <td>{{ e["evRFee"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

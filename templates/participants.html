@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Participants Management</h1>
+<p><a href="/participants">Add / View</a> | <a href="/participants/update">Update</a> | <a href="/participants/delete">Delete</a></p>
+
+<h3>Add Participant</h3>
+<form method="POST">
+    <select name="evCode" required>
+        <option value="">-- Select Event --</option>
+        {% for e in events %}
+        <option value="{{ e['evCode'] }}">{{ e["evName"] }}</option>
+        {% endfor %}
+    </select>
+    <input type="text" name="partFName" placeholder="First Name" required>
+    <input type="text" name="partLName" placeholder="Last Name" required>
+    <input type="number" step="0.01" min="0" max="1" name="partDRate" placeholder="Discount (e.g. 0.20)" required>
+    <button type="submit">Add</button>
+</form>
+
+<h3>All Participants</h3>
+<table>
+    <tr><th>ID</th><th>Event</th><th>First Name</th><th>Last Name</th><th>Discount Rate</th></tr>
+    {% for p in participants %}
+    <tr>
+        <td>{{ p["partID"] }}</td>
+        <td>{{ p["evName"] }}</td>
+        <td>{{ p["partFName"] }}</td>
+        <td>{{ p["partLName"] }}</td>
+        <td>{{ p["partDRate"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
